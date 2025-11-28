@@ -54,4 +54,39 @@ document.addEventListener('DOMContentLoaded', function() {
             gnb.classList.remove('active');
         }
     });
+
+    // 히어로 슬라이더
+    var slides = document.querySelectorAll('.visual-slide');
+    var dots = document.querySelectorAll('.visual-dots .dot');
+    var currentSlide = 0;
+    var slideInterval;
+
+    function goToSlide(index) {
+        slides[currentSlide].classList.remove('active');
+        dots[currentSlide].classList.remove('active');
+        currentSlide = index;
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+    }
+
+    function nextSlide() {
+        var next = (currentSlide + 1) % slides.length;
+        goToSlide(next);
+    }
+
+    // 자동 슬라이드 (4초마다)
+    function startSlider() {
+        slideInterval = setInterval(nextSlide, 4000);
+    }
+
+    // dot 클릭 시 해당 슬라이드로 이동
+    dots.forEach(function(dot, index) {
+        dot.addEventListener('click', function() {
+            clearInterval(slideInterval);
+            goToSlide(index);
+            startSlider();
+        });
+    });
+
+    startSlider();
 });
